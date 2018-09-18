@@ -3,11 +3,33 @@ from pico2d import *
 open_canvas()
 
 grass = load_image('grass.png')
-character = load_image('character.png')
+character = load_image('animation_sheet.png')
 
-def move_to(to_x, to_y):
+LEFT_UP = 0
+LEFT_DOWN = 1
+RIGHT_UP = 2
+RIGHT_DOWN = 3
+
+x, y = 203, 535
+speed = 1
+
+def which_direction(to_x, to_y):
     pass
 
+def calculate_degree(to_x, to_y):
+    pass
+def move_xy(direction, theta):
+    pass
+
+
+def move_to(to_x, to_y):
+    direction = which_direction(to_x, to_y)
+    while to_x != x or to_y != y:
+        theta = calculate_degree(to_x, to_y)
+        move_xy(direction, theta)
+        delay(0.01)
+
+    pass
 while True:
     move_to(203, 535)
     move_to(132, 243)
