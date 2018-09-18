@@ -9,8 +9,8 @@ speed = 5
 
 
 def animation_character(theta):
-    if -90 < theta < 90:
-        character.clip_draw(frame * 100, 0, 100, 100, x, y)
+    if -(math.pi / 2) < theta < math.pi / 2:
+        character.clip_draw(frame * 100, 100, 100, 100, x, y)
     else:
         character.clip_draw(frame * 100, 0, 100, 100, x, y)
 
@@ -24,13 +24,7 @@ def move_to(to_x, to_y):
     global y
     global frame
     theta = calculate_degree(to_x, to_y)
-    degree = math.degrees(theta)
-    sin = math.sin(theta)
-    cos = math.cos(theta)
-    print(degree)
-    print(sin)
-    print(cos)
-    while not (x - 5 < to_x < x + 5) and not (y - 5 < to_y < y + 5):
+    while not (x - 6 < to_x < x + 6) and not (y - 6 < to_y < y + 6):
         clear_canvas()
         grass.draw(400, 30)
         animation_character(theta)
@@ -39,11 +33,12 @@ def move_to(to_x, to_y):
         x = x + speed * math.cos(theta)
         y = y + speed * math.sin(theta)
         delay(0.05)
+    x, y = to_x, to_y
 
 
 while True:
     frame = 0
-    x, y = 712, 349
+    x, y = 712.0, 349.0
     move_to(203, 535)
     move_to(132, 243)
     move_to(535, 470)
