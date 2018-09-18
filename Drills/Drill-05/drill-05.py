@@ -13,11 +13,9 @@ RIGHT_DOWN = 3
 x, y = 203, 535
 speed = 1
 
-
+import math
 def calculate_degree(to_x, to_y):
-    pass
-
-
+    return math.atan((to_y - y) / (to_x - x))
 
 def move_to(to_x, to_y):
     while to_x != x or to_y != y:
