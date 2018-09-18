@@ -43,7 +43,7 @@ def move_to(to_x, to_y):
 
 while True:
     frame = 0
-    x, y = 712, 349
+    x, y = 712.0, 349.0
     move_to(203, 535)
     move_to(132, 243)
     move_to(535, 470)
