@@ -13,20 +13,15 @@ RIGHT_DOWN = 3
 x, y = 203, 535
 speed = 1
 
-def which_direction(to_x, to_y):
-    pass
 
 def calculate_degree(to_x, to_y):
     pass
-def move_xy(direction, theta):
-    pass
+
 
 
 def move_to(to_x, to_y):
-    direction = which_direction(to_x, to_y)
     while to_x != x or to_y != y:
         theta = calculate_degree(to_x, to_y)
-        move_xy(direction, theta)
         delay(0.01)
 
     pass
