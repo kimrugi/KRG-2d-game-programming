@@ -2,19 +2,24 @@ from pico2d import *
 import math
 
 KPU_WIDTH, KPU_HEIGHT = 1280, 1024
-open_canvas(KPU_WIDHT, KPU_HEIGHT)
+
+open_canvas(KPU_WIDTH, KPU_HEIGHT)
 
 kpu_ground = load_image('KPU_GROUND.png')
 character = load_image('animation_sheet.png')
-hand = load_image('hand_arrow')
+hand = load_image('hand_arrow.png')
 speed = 5
 running = 1
+frame = 0
+is_moving = 0
 
+x, y = KPU_WIDTH // 2, KPU_HEIGHT // 2
 hand_x, hand_y = KPU_WIDTH // 2, KPU_HEIGHT // 2
 
 def handle_events():
     global running
     global x, y
+    global hand_x, hand_y
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -49,18 +54,23 @@ def move_to(to_x, to_y):
     print(sin)
     print(cos)
     while not (x - 5 < to_x < x + 5) and not (y - 5 < to_y < y + 5):
-        clear_canvas()
-        kpu_ground.draw(KPU_WIDTH // 2, KPU_HEIGHT // 2)
         animation_character(theta)
-        frame = (frame + 1) % 8
-        update_canvas()
         x = x + speed * math.cos(theta)
         y = y + speed * math.sin(theta)
-        delay(0.05)
+
+
+hide_cursor()
 
 
 while running:
-    frame = 0
+    clear_canvas()
+    kpu_ground.draw(KPU_WIDTH // 2, KPU_HEIGHT // 2)
+    hand.draw(hand_x + 25 , hand_y - 26)
+    frame = (frame + 1) % 8
+    update_canvas()
+    handle_events()
+    delay(0.05)
+
 
 
 close_canvas()
