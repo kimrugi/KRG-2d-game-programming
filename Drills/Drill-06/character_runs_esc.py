@@ -21,6 +21,8 @@ def handle_events():
     pass
 
 
+
+
 while x < 800 and running:
     clear_canvas()
     grass.draw(400, 30)
