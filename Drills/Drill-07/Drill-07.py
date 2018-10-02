@@ -28,7 +28,7 @@ def move_to(p1, p2):
         x = (1 - t) * p1[0] + t * p2[0]
         y = (1 - t) * p1[1] + t * p2[1]
         clear_canvas()
-        kpu_ground.draw(400, 30)
+        kpu_ground.draw(KPU_WIDTH // 2, KPU_HEIGHT // 2)
         animation_character(direction)
         frame = (frame + 1) % 8
         update_canvas()
