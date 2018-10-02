@@ -41,7 +41,7 @@ def animation_character(direction):
     if direction == 0:
         character.clip_draw(frame * 100, 0, 100, 100, x, y)
     else:
-        character.clip_draw(frame * 100, 0, 100, 100, x, y)
+        character.clip_draw(frame * 100, 100, 100, 100, x, y)
 
 
 random_move_list = [(random.randint(100, 1000), random.randint(100, 800)) for n in range(size)]
