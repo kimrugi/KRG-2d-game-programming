@@ -18,7 +18,27 @@ def print_stamp():
     pass
 
 
+def animation_character():
+    if direction == 0:
+        character.clip_draw(frame * 100, 0, 100, 100, x, y)
+    else:
+        character.clip_draw(frame * 100, 100, 100, 100, x, y)
+
+
 def smooth_move(random_list):
+    loop = -1
+    while True:
+        p1 = random_list[loop]
+        p2 = random_list[loop + 1]
+        p3 = random_list[loop + 2]
+        p4 = random_list[loop + 3]
+        for i in range(0, 100, 2):
+            t = i / 100
+            x = ((-t**3 + 2*t**2 - t)*p1[0] + (3*t**3 - 5*t**2 + 2)*p2[0] + (-3*t**3 + 4*t**2 + t)*p3[0] + (t**3 - t**2)*p4[0])/2
+            y = ((-t**3 + 2*t**2 - t)*p1[1] + (3*t**3 - 5*t**2 + 2)*p2[1] + (-3*t**3 + 4*t**2 + t)*p3[1] + (t**3 - t**2)*p4[1])/2
+            animation_character()
+        x, y = p3
+        loop = (loop + 1) % size
     pass
 
 
@@ -45,16 +65,12 @@ def move_to(p1, p2):
     pass
 
 
-def animation_character(direction):
-    if direction == 0:
-        character.clip_draw(frame * 100, 0, 100, 100, x, y)
-    else:
-        character.clip_draw(frame * 100, 100, 100, 100, x, y)
+
 
 
 random_move_list = [(random.randint(100, 1000), random.randint(100, 800)) for n in range(size)]
 stamp = [(random_move_list[0], 0)]
-x,y = random_move_list[0]
+x, y = random_move_list[0]
 while True:
     smooth_move(random_move_list)
     print_stamp()
