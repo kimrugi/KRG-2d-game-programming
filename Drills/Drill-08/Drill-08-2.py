@@ -17,8 +17,11 @@ x, y = 0, 0
 def print_stamp():
     pass
 
+
 def add_stamp(p):
-    pass
+    global stamp
+    stamp = stamp + (p, direction)
+
 
 def animation_character():
     if direction == 0:
