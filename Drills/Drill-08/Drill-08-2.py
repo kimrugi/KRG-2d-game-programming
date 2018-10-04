@@ -7,12 +7,17 @@ open_canvas(KPU_WIDTH, KPU_HEIGHT)
 
 kpu_ground = load_image('KPU_GROUND.png')
 character = load_image('animation_sheet.png')
-size = 20
+size = 10
 
 direction = 0
 frame = 0
 x, y = 0, 0
 
+
+def print_stamp():
+    pass
+def smooth_move(random_list)
+    pass
 
 def move_to(p1, p2):
     global x, y
@@ -45,9 +50,11 @@ def animation_character(direction):
 
 
 random_move_list = [(random.randint(100, 1000), random.randint(100, 800)) for n in range(size)]
+stamp = [random_move_list[0]]
 
 while True:
-    animation_character(direction)
+    smooth_move(random_move_list)
+    print_stamp()
 
 
 
