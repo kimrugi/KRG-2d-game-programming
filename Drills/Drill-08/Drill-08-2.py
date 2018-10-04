@@ -16,8 +16,11 @@ x, y = 0, 0
 
 def print_stamp():
     pass
-def smooth_move(random_list)
+
+
+def smooth_move(random_list):
     pass
+
 
 def move_to(p1, p2):
     global x, y
@@ -50,8 +53,8 @@ def animation_character(direction):
 
 
 random_move_list = [(random.randint(100, 1000), random.randint(100, 800)) for n in range(size)]
-stamp = [random_move_list[0]]
-
+stamp = [(random_move_list[0], 0)]
+x,y = random_move_list[0]
 while True:
     smooth_move(random_move_list)
     print_stamp()
