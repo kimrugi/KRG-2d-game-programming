@@ -17,6 +17,8 @@ x, y = 0, 0
 def print_stamp():
     pass
 
+def add_stamp(p):
+    pass
 
 def animation_character():
     if direction == 0:
@@ -31,6 +33,7 @@ def draw_all():
     clear_canvas()
     kpu_ground.draw(KPU_WIDTH // 2, KPU_HEIGHT // 2)
     animation_character()
+    print_stamp()
     frame = (frame + 1) % 8
     update_canvas()
     delay(0.05)
@@ -51,6 +54,7 @@ def smooth_move(random_list):
             y = ((-t**3 + 2*t**2 - t)*p1[1] + (3*t**3 - 5*t**2 + 2)*p2[1] + (-3*t**3 + 4*t**2 + t)*p3[1] + (t**3 - t**2)*p4[1])/2
 
         x, y = p3
+        add_stamp(p3)
         loop = (loop + 1) % size
     pass
 
