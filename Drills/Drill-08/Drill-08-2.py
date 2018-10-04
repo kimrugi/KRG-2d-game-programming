@@ -15,17 +15,18 @@ x, y = 0, 0
 
 
 def print_stamp():
-    for X, Y, dire, fr in stamp:
-        if dire == 0:
-            character.clip_draw(fr * 100, 0, 100, 100, X, Y)
+    for st in stamp:
+        if st[1] == 0:
+            character.clip_draw(st[2] * 100, 0, 100, 100, st[0][0], st[0][1])
         else:
-            character.clip_draw(fr * 100, 100, 100, 100, X, Y)
+            character.clip_draw(st[2] * 100, 100, 100, 100, st[0][0], st[0][1])
     pass
 
 
 def add_stamp(p):
     global stamp
-    stamp = stamp + (p, direction, frame)
+    tmp = (p, direction, frame)
+    stamp.append(tmp)
 
 
 def animation_character():
@@ -44,6 +45,7 @@ def draw_all():
     print_stamp()
     frame = (frame + 1) % 8
     update_canvas()
+    get_events()
     delay(0.05)
     pass
 
@@ -57,43 +59,20 @@ def smooth_move(random_list):
         p3 = random_list[loop - 1]
         p2 = random_list[loop - 2]
         p1 = random_list[loop - 3]
-        for i in range(0, 100, 2):
+        for i in range(0, 100, 10):
             t = i / 100
             tmpx = ((-t**3 + 2*t**2 - t)*p1[0] + (3*t**3 - 5*t**2 + 2)*p2[0] + (-3*t**3 + 4*t**2 + t)*p3[0] + (t**3 - t**2)*p4[0])/2
             y = ((-t**3 + 2*t**2 - t)*p1[1] + (3*t**3 - 5*t**2 + 2)*p2[1] + (-3*t**3 + 4*t**2 + t)*p3[1] + (t**3 - t**2)*p4[1])/2
             if(x < tmpx):
-                direction = 0
-            else:
                 direction = 1
+            else:
+                direction = 0
             x = tmpx
             draw_all()
 
         x, y = p3
         add_stamp(p3)
         loop = (loop + 1) % size
-    pass
-
-
-def move_to(p1, p2):
-    global x, y
-    global frame
-    global direction
-    x, y = p1
-    if p1[0] - p2[0] > 0:
-        direction = 0
-    else:
-        direction = 1
-    for i in range(1, 100, 10):
-        t = i / 100
-        x = (1 - t) * p1[0] + t * p2[0]
-        y = (1 - t) * p1[1] + t * p2[1]
-        clear_canvas()
-        kpu_ground.draw(KPU_WIDTH // 2, KPU_HEIGHT // 2)
-        animation_character(direction)
-        frame = (frame + 1) % 8
-        update_canvas()
-        delay(0.05)
-    x, y = p2
     pass
 
 
