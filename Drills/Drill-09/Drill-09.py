@@ -14,7 +14,7 @@ class Ball:
         if random.randint(0, 1):
             self.image = load_image('ball21x21.png')
             self.size = 21
-        else
+        else:
             self.image = load_image('ball41x41.png')
             self.size = 41
     pass
