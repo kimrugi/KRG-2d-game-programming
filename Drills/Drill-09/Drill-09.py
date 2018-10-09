@@ -21,14 +21,13 @@ class Ball:
 
     def check(self):
         pass
-    
+
     def fall(self):
         self.y = self.y - self.image
         self.check(self)
 
-
     def draw(self):
-        pass
+        self.image.draw(self.x, self.y)
 
 
 class Boy:
