@@ -12,6 +12,7 @@ class Ball:
         self.x = random.randint(0, WIDTH)
         self.y = 599
         self.speed = random.randint(1, 5)
+        self.falling = 1
         if random.randint(0, 1):
             self.image = load_image('ball21x21.png')
             self.size = 21
@@ -21,12 +22,12 @@ class Ball:
 
     def check(self):
         if self.y < 60:
-            pass
-        pass
+            self.falling = 0
 
     def fall(self):
-        self.y = self.y - self.image
-        self.check(self)
+        if self.falling:
+            self.y = self.y - self.image
+            self.check(self)
 
     def draw(self):
         self.image.draw(self.x, self.y)
