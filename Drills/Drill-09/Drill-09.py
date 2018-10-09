@@ -5,7 +5,8 @@ HEIGHT = 600
 
 # y = 599
 
-
+class Ball:
+    pass
 
 
 class Boy:
@@ -39,6 +40,8 @@ def handle_events():
 open_canvas(WIDTH, HEIGHT);
 boy = Boy()
 grass = Grass()
+balls = [Ball() for i in range(20)]
+
 
 running = 1
 while running:
