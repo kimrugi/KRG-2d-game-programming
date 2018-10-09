@@ -1,4 +1,5 @@
 from pico2d import *
+import random
 running = 0
 WIDTH = 800
 HEIGHT = 600
@@ -6,6 +7,16 @@ HEIGHT = 600
 # y = 599
 
 class Ball:
+    def __init__(self):
+        self.x = random.randint(0, WIDTH)
+        self.y = 599
+        self.speed = random.randint(1, 5)
+        if random.randint(0, 1):
+            self.image = load_image('ball21x21.png')
+            self.size = 21
+        else
+            self.image = load_image('ball41x41.png')
+            self.size = 41
     pass
 
 
