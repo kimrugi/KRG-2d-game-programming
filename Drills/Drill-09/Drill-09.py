@@ -11,7 +11,7 @@ class Ball:
     def __init__(self):
         self.x = random.randint(0, WIDTH)
         self.y = 599
-        self.speed = random.randint(1, 5)
+        self.speed = random.randint(1, 100) / 10
         self.falling = 1
         if random.randint(0, 1):
             self.image = load_image('ball21x21.png')
@@ -21,13 +21,13 @@ class Ball:
             self.size = 41
 
     def check(self):
-        if self.y < 60:
+        if (self.y - self.size // 2) < 60:
             self.falling = 0
 
     def fall(self):
         if self.falling:
-            self.y = self.y - self.image
-            self.check(self)
+            self.y = self.y - self.speed
+            self.check()
 
     def draw(self):
         self.image.draw(self.x, self.y)
@@ -76,11 +76,15 @@ while running:
     clear_canvas()
     for i in boy:
         i.draw()
+    for i in balls:
+        i.draw()
     grass.draw()
     update_canvas()
 
     for i in boy:
         i.move()
         i.frame = (i.frame + 1) % 8
+    for i in balls:
+        i.fall()
 
 close_canvas()
