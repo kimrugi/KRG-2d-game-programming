@@ -6,6 +6,7 @@ HEIGHT = 600
 
 # y = 599
 
+
 class Ball:
     def __init__(self):
         self.x = random.randint(0, WIDTH)
@@ -17,7 +18,12 @@ class Ball:
         else:
             self.image = load_image('ball41x41.png')
             self.size = 41
-    pass
+
+    def fall(self):
+        pass
+
+    def draw(self):
+        pass
 
 
 class Boy:
