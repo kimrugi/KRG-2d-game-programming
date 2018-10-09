@@ -19,8 +19,13 @@ class Ball:
             self.image = load_image('ball41x41.png')
             self.size = 41
 
-    def fall(self):
+    def check(self):
         pass
+    
+    def fall(self):
+        self.y = self.y - self.image
+        self.check(self)
+
 
     def draw(self):
         pass
