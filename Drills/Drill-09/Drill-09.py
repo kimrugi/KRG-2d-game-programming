@@ -20,6 +20,8 @@ class Ball:
             self.size = 41
 
     def check(self):
+        if self.y < 60:
+            pass
         pass
 
     def fall(self):
@@ -33,10 +35,12 @@ class Ball:
 class Boy:
     def __init__(self):
         self.image = load_image('run_animation.png')
-        self.x = 0
+        self.x = random.randint(0, 300)
         self.frame = 0
+
     def move(self):
         self.x = self.x + 5
+
     def draw(self):
         self.image.clip_draw(self.frame*100, 0, 100, 100, self.x, 90)
 
@@ -44,6 +48,7 @@ class Boy:
 class Grass:
     def __init__(self):
         self.image = load_image('grass.png')
+
     def draw(self):
         self.image.draw(400, 30)
 
@@ -59,7 +64,7 @@ def handle_events():
 
 
 open_canvas(WIDTH, HEIGHT);
-boy = Boy()
+boy = [Boy() for i in range(11)]
 grass = Grass()
 balls = [Ball() for i in range(20)]
 
@@ -68,11 +73,13 @@ running = 1
 while running:
     handle_events()
     clear_canvas()
-    boy.draw()
+    for i in boy:
+        i.draw()
     grass.draw()
     update_canvas()
 
-    boy.move()
-    boy.frame = (boy.frame + 1) % 4
+    for i in boy:
+        i.move()
+        i.frame = (i.frame + 1) % 8
 
 close_canvas()
