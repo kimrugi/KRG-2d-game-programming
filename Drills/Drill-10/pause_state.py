@@ -2,12 +2,13 @@ import game_framework
 from pico2d import *
 import title_state
 
-name = ""
+name = "paued"
 image = None
 
 
 def enter():
-    pass
+    global image
+    image = load_image('pause.png')
 
 
 def exit():
