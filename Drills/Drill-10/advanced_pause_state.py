@@ -24,7 +24,8 @@ def update():
 def draw():
     global blinking
     clear_canvas()
-    main_state.draw()
+    main_state.boy.draw()
+    main_state.grass.draw()
     if (blinking < 20):
        image.draw(400, 300)
     blinking = (blinking + 1) % 30
