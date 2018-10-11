@@ -12,7 +12,8 @@ def enter():
 
 
 def exit():
-    pass
+    global image
+    del(image)
 
 
 def update():
