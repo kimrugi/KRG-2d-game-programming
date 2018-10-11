@@ -4,7 +4,7 @@ import main_state
 
 name = "paued"
 image = None
-
+blinking = 0
 
 def enter():
     global image
@@ -17,13 +17,17 @@ def exit():
 
 
 def update():
+    delay(0.01)
     pass
 
 
 def draw():
+    global blinking
     clear_canvas()
     main_state.draw()
-    image.draw(400, 300)
+    if (blinking < 20):
+       image.draw(400, 300)
+    blinking = (blinking + 1) % 30
     update_canvas()
 
 
