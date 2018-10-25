@@ -4,8 +4,9 @@ from ball import Ball
 import game_world
 
 # Boy Event
-RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SLEEP_TIMER, SPACE, TIRED, SHIFT_DOWN, SHIFT_UP = range(8)
+RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SLEEP_TIMER, SPACE, TIRED, SHIFT_DOWN, SHIFT_UP, GO_DASH = range(10)
 DASH_SPEED = 2
+MAX_STAMINA = 100
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_RIGHT): RIGHT_DOWN,
@@ -40,12 +41,16 @@ class IdleState:
     def exit(boy, event):
         if event == SPACE:
             boy.fire_ball()
+        elif event == SHIFT_UP:
+            pass
         pass
 
     @staticmethod
     def do(boy):
         boy.frame = (boy.frame + 1) % 40
         boy.timer -= 1
+        if boy.stamina < MAX_STAMINA:
+            boy.stamina += 1
         if boy.timer == 0:
             boy.add_event(SLEEP_TIMER)
 
@@ -75,6 +80,8 @@ class RunState:
     def exit(boy, event):
         if event == SPACE:
             boy.fire_ball()
+        elif event == SHIFT_UP:
+            pass
         pass
 
     @staticmethod
@@ -83,6 +90,8 @@ class RunState:
         boy.timer -= 1
         boy.x += boy.velocity
         boy.x = clamp(25, boy.x, 1600 - 25)
+        if boy.stamina < MAX_STAMINA:
+            boy.stamina += 1
 
     @staticmethod
     def draw(boy):
@@ -99,11 +108,15 @@ class SleepState:
 
     @staticmethod
     def exit(boy, event):
+        if event == SHIFT_UP:
+            pass
         pass
 
     @staticmethod
     def do(boy):
         boy.frame = (boy.frame + 1) % 40
+        if boy.stamina < MAX_STAMINA:
+            boy.stamina += 1
 
     @staticmethod
     def draw(boy):
@@ -118,16 +131,14 @@ class SleepState:
 class DashState:
     @staticmethod
     def enter(boy, event):
-        boy.is_dashing += 1
-        boy.stamina = 100
-
+        pass
 
     @staticmethod
     def exit(boy, event):
-        if event == SHIFT_DOWN:
-            boy.is_dashing += 1
-        else:
-            boy.is_dashing -= 1
+        if event == SPACE:
+            boy.fire_ball()
+        elif event == SHIFT_UP:
+            pass
 
     @staticmethod
     def do(boy):
@@ -154,11 +165,11 @@ next_state_table = {
     IdleState: {RIGHT_UP: RunState, LEFT_UP: RunState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState,
                 SLEEP_TIMER: SleepState, SPACE: IdleState, SHIFT_DOWN: IdleState, SHIFT_UP: IdleState},
     RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState,
-               SPACE: RunState, SHIFT_DOWN: DashState, SHIFT_UP: DashState},
+               SPACE: RunState, SHIFT_DOWN: DashState, SHIFT_UP: RunState, GO_DASH: DashState},
     SleepState: {RIGHT_UP: RunState, LEFT_UP: RunState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState,
-                 SPACE: SleepState, SHIFT_UP: SleepState, SHIFT_DOWN: SleepState}
+                 SPACE: SleepState, SHIFT_UP: SleepState, SHIFT_DOWN: SleepState},
     DashState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState,
-               SPACE: DashState, SHIFT_DOWN: DashState, SHIFT_UP: RunState}
+               SPACE: DashState, SHIFT_DOWN: DashState, SHIFT_UP: RunState, TIRED: RunState}
 }
 
 class Boy:
@@ -170,8 +181,7 @@ class Boy:
         self.velocity = 0
         self.frame = 0
         self.timer = 0
-        self.stamina = 0
-        self.is_dashing = 0
+        self.stamina = MAX_STAMINA
         self.event_que = []
         self.cur_state = IdleState
         self.cur_state.enter(self, None)
