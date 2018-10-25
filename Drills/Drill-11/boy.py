@@ -118,20 +118,16 @@ class SleepState:
 class DashState:
     @staticmethod
     def enter(boy, event):
-        if event == RIGHT_DOWN:
-            boy.velocity += 1
-        elif event == LEFT_DOWN:
-            boy.velocity -= 1
-        elif event == RIGHT_UP:
-            boy.velocity -= 1
-        elif event == LEFT_UP:
-            boy.velocity += 1
-        boy.dir = boy.velocity
+        boy.is_dashing += 1
         boy.stamina = 100
+
 
     @staticmethod
     def exit(boy, event):
-        pass
+        if event == SHIFT_DOWN:
+            boy.is_dashing += 1
+        else:
+            boy.is_dashing -= 1
 
     @staticmethod
     def do(boy):
@@ -156,10 +152,13 @@ class DashState:
 
 next_state_table = {
     IdleState: {RIGHT_UP: RunState, LEFT_UP: RunState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState,
-                SLEEP_TIMER: SleepState, SPACE: IdleState},
+                SLEEP_TIMER: SleepState, SPACE: IdleState, SHIFT_DOWN: IdleState, SHIFT_UP: IdleState},
     RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState,
-               SPACE: RunState},
-    SleepState: {RIGHT_UP: RunState, LEFT_UP: RunState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState, SPACE: SleepState}
+               SPACE: RunState, SHIFT_DOWN: DashState, SHIFT_UP: DashState},
+    SleepState: {RIGHT_UP: RunState, LEFT_UP: RunState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState,
+                 SPACE: SleepState, SHIFT_UP: SleepState, SHIFT_DOWN: SleepState}
+    DashState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState,
+               SPACE: DashState, SHIFT_DOWN: DashState, SHIFT_UP: RunState}
 }
 
 class Boy:
@@ -172,6 +171,7 @@ class Boy:
         self.frame = 0
         self.timer = 0
         self.stamina = 0
+        self.is_dashing = 0
         self.event_que = []
         self.cur_state = IdleState
         self.cur_state.enter(self, None)
