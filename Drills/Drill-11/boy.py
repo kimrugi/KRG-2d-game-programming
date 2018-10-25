@@ -12,7 +12,7 @@ key_event_table = {
     (SDL_KEYDOWN, SDLK_LEFT): LEFT_DOWN,
     (SDL_KEYUP, SDLK_RIGHT): RIGHT_UP,
     (SDL_KEYUP, SDLK_LEFT): LEFT_UP,
-    (SDL_KEYDOWN, SDLK_SPACE) : SPACE
+    (SDL_KEYDOWN, SDLK_SPACE): SPACE
 }
 
 
@@ -140,7 +140,10 @@ class DashState:
 
     @staticmethod
     def draw(boy):
-        pass
+        if boy.velocity == 1:
+            boy.image.clip_draw((boy.frame // 5) * 2 * 100, 100, 100, 100, boy.x, boy.y)
+        else:
+            boy.image.clip_draw((boy.frame // 5) * 2 * 100, 0, 100, 100, boy.x, boy.y)
 
     pass
 
