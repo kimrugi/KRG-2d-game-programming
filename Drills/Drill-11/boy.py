@@ -110,7 +110,24 @@ class SleepState:
 
     pass
 
+class DashState:
+    @staticmethod
+    def enter(boy, event):
+        pass
 
+    @staticmethod
+    def exit(boy, event):
+        pass
+
+    @staticmethod
+    def do(boy):
+        pass
+
+    @staticmethod
+    def draw(boy):
+        pass
+
+    pass
 
 
 
