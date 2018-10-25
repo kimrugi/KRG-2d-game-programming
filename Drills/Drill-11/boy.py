@@ -4,7 +4,7 @@ from ball import Ball
 import game_world
 
 # Boy Event
-RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SLEEP_TIMER, SPACE = range(6)
+RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SLEEP_TIMER, SPACE, TIRED, SHIFT_DOWN, SHIFT_UP = range(8)
 DASH_SPEED = 2
 
 key_event_table = {
@@ -131,10 +131,12 @@ class DashState:
 
     @staticmethod
     def do(boy):
-        boy.frame = (boy.frame + 1) % 8
+        boy.frame = (boy.frame + 1) % (40 // DASH_SPEED)
         boy.stamina -= 1
         boy.x += boy.velocity * DASH_SPEED
         boy.x = clamp(25, boy.x, 1600 - 25)
+        if boy.stamina == 0:
+            boy.add_event(TIRED)
 
     @staticmethod
     def draw(boy):
