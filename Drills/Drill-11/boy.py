@@ -137,7 +137,6 @@ class DashState:
     def exit(boy, event):
         if event == SPACE:
             boy.fire_ball()
-        elif event == SHIFT_UP:
             pass
 
     @staticmethod
@@ -152,9 +151,9 @@ class DashState:
     @staticmethod
     def draw(boy):
         if boy.velocity == 1:
-            boy.image.clip_draw((boy.frame // 5) * 2 * 100, 100, 100, 100, boy.x, boy.y)
+            boy.image.clip_draw((boy.frame * 2 // 5) * 100, 100, 100, 100, boy.x, boy.y)
         else:
-            boy.image.clip_draw((boy.frame // 5) * 2 * 100, 0, 100, 100, boy.x, boy.y)
+            boy.image.clip_draw((boy.frame * 2 // 5) * 100, 0, 100, 100, boy.x, boy.y)
 
     pass
 
