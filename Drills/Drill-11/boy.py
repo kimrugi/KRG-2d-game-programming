@@ -40,7 +40,7 @@ class IdleState:
 
     @staticmethod
     def do(boy):
-        boy.frame = (boy.frame + 1) % 8
+        boy.frame = (boy.frame + 1) % 40
         boy.timer -= 1
         if boy.timer == 0:
             boy.add_event(SLEEP_TIMER)
@@ -48,9 +48,9 @@ class IdleState:
     @staticmethod
     def draw(boy):
         if boy.dir == 1:
-            boy.image.clip_draw(boy.frame * 100, 300, 100, 100, boy.x, boy.y)
+            boy.image.clip_draw(boy.frame // 5 * 100, 300, 100, 100, boy.x, boy.y)
         else:
-            boy.image.clip_draw(boy.frame * 100, 200, 100, 100, boy.x, boy.y)
+            boy.image.clip_draw(boy.frame // 5 * 100, 200, 100, 100, boy.x, boy.y)
 
 
 class RunState:
@@ -75,7 +75,7 @@ class RunState:
 
     @staticmethod
     def do(boy):
-        boy.frame = (boy.frame + 1) % 8
+        boy.frame = (boy.frame + 1) % 40
         boy.timer -= 1
         boy.x += boy.velocity
         boy.x = clamp(25, boy.x, 1600 - 25)
@@ -83,9 +83,9 @@ class RunState:
     @staticmethod
     def draw(boy):
         if boy.velocity == 1:
-            boy.image.clip_draw(boy.frame * 100, 100, 100, 100, boy.x, boy.y)
+            boy.image.clip_draw(boy.frame // 5 * 100, 100, 100, 100, boy.x, boy.y)
         else:
-            boy.image.clip_draw(boy.frame * 100, 0, 100, 100, boy.x, boy.y)
+            boy.image.clip_draw(boy.frame // 5 * 100, 0, 100, 100, boy.x, boy.y)
 
 
 class SleepState:
@@ -99,15 +99,15 @@ class SleepState:
 
     @staticmethod
     def do(boy):
-        boy.frame = (boy.frame + 1) % 8
+        boy.frame = (boy.frame + 1) % 40
 
     @staticmethod
     def draw(boy):
         if boy.dir == 1:
-            boy.image.clip_composite_draw(boy.frame * 100, 300, 100, 100, 3.141592 / 2, '', boy.x - 25,
+            boy.image.clip_composite_draw(boy.frame // 5 * 100, 300, 100, 100, 3.141592 / 2, '', boy.x - 25,
                                                 boy.y - 25, 100, 100)
         else:
-            boy.image.clip_composite_draw(boy.frame * 100, 200, 100, 100, -3.141592 / 2, '', boy.x + 25, boy.y - 25, 100, 100)
+            boy.image.clip_composite_draw(boy.frame // 5 * 100, 200, 100, 100, -3.141592 / 2, '', boy.x + 25, boy.y - 25, 100, 100)
 
     pass
 
