@@ -5,6 +5,7 @@ import game_world
 
 # Boy Event
 RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SLEEP_TIMER, SPACE = range(6)
+DASH_SPEED = 2
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_RIGHT): RIGHT_DOWN,
@@ -130,7 +131,10 @@ class DashState:
 
     @staticmethod
     def do(boy):
-        pass
+        boy.frame = (boy.frame + 1) % 8
+        boy.stamina -= 1
+        boy.x += boy.velocity * DASH_SPEED
+        boy.x = clamp(25, boy.x, 1600 - 25)
 
     @staticmethod
     def draw(boy):
