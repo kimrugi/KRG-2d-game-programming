@@ -115,6 +115,7 @@ class SleepState:
 
     @staticmethod
     def exit(boy, event):
+        boy.delete_ghost()
         pass
 
     @staticmethod
@@ -149,6 +150,7 @@ class Boy:
         self.dir = 1
         self.velocity = 0
         self.frame = 0
+        self.ghost = None
         self.event_que = []
         self.cur_state = IdleState
         self.cur_state.enter(self, None)
@@ -159,8 +161,12 @@ class Boy:
         game_world.add_object(ball, 1)
 
     def create_ghost(self):
-        ghost = Ghost(self)
-        game_world.add_object(ghost, 1)
+        self.ghost = Ghost(self)
+        game_world.add_object(self.ghost, 1)
+
+    def delete_ghost(self):
+        game_world.remove_object(self.ghost)
+        self.ghost = None
 
     def add_event(self, event):
         self.event_que.insert(0, event)

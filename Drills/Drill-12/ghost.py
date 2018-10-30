@@ -2,13 +2,13 @@
 import game_framework
 from pico2d import *
 
-import game_world
+import random
 import math
 
 PIXEL_PER_METER = (10.0 / 0.3)
 EXIT_SPEED_MPS = 0.5
 EXIT_SPEED_PPS = EXIT_SPEED_MPS * PIXEL_PER_METER
-FADE_SPEED_PPS = 0.4 / (3 / EXIT_SPEED_MPS)
+FADE_SPEED_PPS = 0.7 / (3 / EXIT_SPEED_MPS)
 WAKE_UP_DPS = (3.141592 / 2) / (3 / EXIT_SPEED_MPS)
 
 DEGREE_SPEED_PER_SECOND = (3.141592 * 2) / 0.5
@@ -32,6 +32,7 @@ class Fluid_exit:
 
     @staticmethod
     def do(ghost):
+        ghost.frame = (ghost.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
         ghost.y += EXIT_SPEED_PPS * game_framework.frame_time
         ghost.transparent -= FADE_SPEED_PPS * game_framework.frame_time
         ghost.image.opacify(ghost.transparent)
@@ -54,16 +55,25 @@ class Circles_around:
     def enter(ghost, event):
         ghost.degree = 3.141592 / 2
 
-
     @staticmethod
     def exit(ghost, event):
         pass
 
     @staticmethod
     def do(ghost):
+        ghost.frame = (ghost.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
         ghost.degree += DEGREE_SPEED_PER_SECOND * game_framework.frame_time
         ghost.x = ghost.origin_x + math.sin(ghost.degree) * 3 * PIXEL_PER_METER
         ghost.y = ghost.origin_y + math.cos(ghost.degree) * 3 * PIXEL_PER_METER
+        ghost.timer += game_framework.frame_time
+        if ghost.timer >= 3:
+            ghost.timer = 0
+            if random.randint(0, 1):
+                ghost.fade_sign = -1
+            else:
+                ghost.fade_sign = 1
+        ghost.transparent += ghost.fade_sign * FADE_SPEED_PPS * game_framework.frame_time
+        ghost.image.opacify(ghost.transparent)
 
     @staticmethod
     def draw(ghost):
@@ -89,6 +99,8 @@ class Ghost:
         self.event_que = []
         self.cur_state = Fluid_exit
 
+        self.timer = 0
+        self.fade_sign = 1
         self.degree = 3.141592 / 2
         self.transparent = 0.9
         self.cur_state.enter(self, 0)
