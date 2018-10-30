@@ -5,10 +5,10 @@ from pico2d import *
 import game_world
 
 PIXEL_PER_METER = (10.0 / 0.3)
-EXIT_SPEED_MPS = 0.1
+EXIT_SPEED_MPS = 0.5
 EXIT_SPEED_PPS = EXIT_SPEED_MPS * PIXEL_PER_METER
-FADE_SPEED_PPS = 0.4 / 3 * PIXEL_PER_METER
-WAKE_UP_PPS = 2 / 3 * PIXEL_PER_METER
+FADE_SPEED_PPS = 0.4 / (3 / EXIT_SPEED_MPS)
+WAKE_UP_DPS = (3.141592 / 2) / (3 / EXIT_SPEED_MPS)
 
 TIME_PER_ACTION = 1
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
@@ -30,7 +30,8 @@ class Fluid_exit:
     def do(ghost):
         ghost.y += EXIT_SPEED_PPS * game_framework.frame_time
         ghost.transparent -= FADE_SPEED_PPS * game_framework.frame_time
-        ghost.degree -= WAKE_UP_PPS * game_framework.frame_time
+        ghost.image.opacify(ghost.transparent)
+        ghost.degree -= WAKE_UP_DPS * game_framework.frame_time
         if ghost.y - ghost.origin_y >= 3 * PIXEL_PER_METER:
             ghost.y = ghost.origin_y + 3 * PIXEL_PER_METER
             ghost.add_event(GO_CIRCLE)
@@ -39,9 +40,9 @@ class Fluid_exit:
     @staticmethod
     def draw(ghost):
         if ghost.dir == 1:
-            ghost.image.clip_composite_draw(int(ghost.frame) * 100, 300, 100, 100, 3.141592 / ghost.degree, '', ghost.x - 25, ghost.y - 25, 100, 100)
+            ghost.image.clip_composite_draw(int(ghost.frame) * 100, 300, 100, 100, ghost.degree, '', ghost.x - 25, ghost.y - 25, 100, 100)
         else:
-            ghost.image.clip_composite_draw(int(ghost.frame) * 100, 200, 100, 100, -3.141592 / ghost.degree, '', ghost.x + 25, ghost.y - 25, 100, 100)
+            ghost.image.clip_composite_draw(int(ghost.frame) * 100, 200, 100, 100, -(ghost.degree), '', ghost.x + 25, ghost.y - 25, 100, 100)
 
 class Circles_around:
 
@@ -76,7 +77,7 @@ class Ghost:
         self.event_que = []
         self.cur_state = Fluid_exit
 
-        self.degree = 2
+        self.degree = 3.141592 / 2
         self.transparent = 0.9
         self.cur_state.enter(self)
     def add_event(self, event):
