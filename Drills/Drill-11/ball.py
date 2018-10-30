@@ -15,5 +15,9 @@ class Ball:
     def update(self):
         self.x += self.velocity
 
+<<<<<<< HEAD
         if self.x < -25 or self.x > 1600 + 25:
+=======
+        if self.x < 25 or self.x > 1600 - 25:
+>>>>>>> d2272f6385271e1cbc5075b41547bce36ef77305
             game_world.remove_object(self)
