@@ -76,7 +76,7 @@ class RunState:
         if event == RIGHT_DOWN:
             boy.velocity += RUN_SPEED_PPS
         elif event == LEFT_DOWN:
-            boy.velocity-= RUN_SPEED_PPS
+            boy.velocity -= RUN_SPEED_PPS
         elif event == RIGHT_UP:
             boy.velocity -= RUN_SPEED_PPS
         elif event == LEFT_UP:
