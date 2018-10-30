@@ -4,7 +4,9 @@ from ball import Ball
 from ghost import Ghost
 
 import game_world
+import time
 
+SLEEP = 2
 
 # Boy Run Speed
 # fill expressions correctly
@@ -48,7 +50,7 @@ class IdleState:
             boy.velocity -= RUN_SPEED_PPS
         elif event == LEFT_UP:
             boy.velocity += RUN_SPEED_PPS
-        boy.timer = 1000
+        boy.timer = get_time()
 
     @staticmethod
     def exit(boy, event):
@@ -59,8 +61,7 @@ class IdleState:
     @staticmethod
     def do(boy):
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
-        boy.timer -= 1
-        if boy.timer == 0:
+        if get_time() - boy.timer > SLEEP:
             boy.add_event(SLEEP_TIMER)
 
     @staticmethod

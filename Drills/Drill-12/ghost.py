@@ -19,11 +19,11 @@ GO_CIRCLE = range(1)
 class Fluid_exit:
 
     @staticmethod
-    def enter(ghost):
+    def enter(ghost, event):
         pass
 
     @staticmethod
-    def exit():
+    def exit(ghost, event):
         pass
 
     @staticmethod
@@ -47,20 +47,25 @@ class Fluid_exit:
 class Circles_around:
 
     @staticmethod
-    def enter():
+    def enter(ghost, event):
         pass
 
     @staticmethod
-    def exit():
+    def exit(ghost, event):
         pass
 
     @staticmethod
-    def do():
+    def do(ghost):
         pass
 
     @staticmethod
-    def draw():
-        pass
+    def draw(ghost):
+        if ghost.dir == 1:
+            ghost.image.clip_draw(int(ghost.frame) * 100, 300, 100, 100, ghost.x, ghost.y)
+        else:
+            ghost.image.clip_draw(int(ghost.frame) * 100, 200, 100, 100, ghost.x, ghost.y)
+
+
 next_state_table = {
     Fluid_exit:{GO_CIRCLE: Circles_around},
     Circles_around:{}
