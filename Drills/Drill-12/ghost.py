@@ -3,12 +3,15 @@ import game_framework
 from pico2d import *
 
 import game_world
+import math
 
 PIXEL_PER_METER = (10.0 / 0.3)
 EXIT_SPEED_MPS = 0.5
 EXIT_SPEED_PPS = EXIT_SPEED_MPS * PIXEL_PER_METER
 FADE_SPEED_PPS = 0.4 / (3 / EXIT_SPEED_MPS)
 WAKE_UP_DPS = (3.141592 / 2) / (3 / EXIT_SPEED_MPS)
+
+DEGREE_SPEED_PER_SECOND = (3.141592 * 2) / 0.5
 
 TIME_PER_ACTION = 1
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
@@ -20,7 +23,8 @@ class Fluid_exit:
 
     @staticmethod
     def enter(ghost, event):
-        pass
+        ghost.degree = 3.141592 / 2
+
 
     @staticmethod
     def exit(ghost, event):
@@ -48,7 +52,8 @@ class Circles_around:
 
     @staticmethod
     def enter(ghost, event):
-        pass
+        ghost.degree = 3.141592 / 2
+
 
     @staticmethod
     def exit(ghost, event):
@@ -56,7 +61,9 @@ class Circles_around:
 
     @staticmethod
     def do(ghost):
-        pass
+        ghost.degree += DEGREE_SPEED_PER_SECOND * game_framework.frame_time
+        ghost.x = ghost.origin_x + math.sin(ghost.degree) * 3 * PIXEL_PER_METER
+        ghost.y = ghost.origin_y + math.cos(ghost.degree) * 3 * PIXEL_PER_METER
 
     @staticmethod
     def draw(ghost):
@@ -75,7 +82,7 @@ class Ghost:
     image = None
     def __init__(self, boy):
         self.x, self.y = boy.x, boy.y
-        self.origin_y = boy.y
+        self.origin_x, self.origin_y = boy.x, boy.y
         self.image = load_image('animation_sheet.png')
         self.dir = boy.dir
         self.frame = boy.frame
@@ -84,7 +91,7 @@ class Ghost:
 
         self.degree = 3.141592 / 2
         self.transparent = 0.9
-        self.cur_state.enter(self)
+        self.cur_state.enter(self, 0)
     def add_event(self, event):
         self.event_que.insert(0, event)
 
