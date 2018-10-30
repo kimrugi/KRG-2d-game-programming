@@ -51,7 +51,10 @@ class Circles_around:
     @staticmethod
     def draw():
         pass
-
+next_state_table = {
+    Fluid_exit:{GO_CIRCLE: Circles_around},
+    Circles_around:{}
+}
 
 class Ghost:
     image = None
@@ -69,7 +72,12 @@ class Ghost:
         self.event_que.insert(0, event)
 
     def update(self):
-        pass
+        self.cur_state.do(self)
+        if len(self.event_que) > 0:
+            event = self.event_que.pop()
+            self.cur_state.exit(self, event)
+            self.cur_state = next_state_table[self.cur_state][event]
+            self.cur_state.enter(self, event)
 
     def draw(self):
         self.cur_state.draw(self)
