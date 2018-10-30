@@ -34,7 +34,17 @@ class Fluid_exit:
     def do(ghost):
         ghost.frame = (ghost.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
         ghost.y += EXIT_SPEED_PPS * game_framework.frame_time
-        ghost.transparent -= FADE_SPEED_PPS * game_framework.frame_time
+        if ghost.transparent > 0.7:
+            ghost.transparent -= FADE_SPEED_PPS * game_framework.frame_time
+        else:
+            ghost.timer += game_framework.frame_time
+            if ghost.timer >= 3:
+                ghost.timer = 0
+                if random.randint(0, 1):
+                    ghost.fade_sign = -1
+                else:
+                    ghost.fade_sign = 1
+            ghost.transparent += ghost.fade_sign * FADE_SPEED_PPS * game_framework.frame_time
         ghost.image.opacify(ghost.transparent)
         ghost.degree -= WAKE_UP_DPS * game_framework.frame_time
         if ghost.y - ghost.origin_y >= 3 * PIXEL_PER_METER:
@@ -65,14 +75,17 @@ class Circles_around:
         ghost.degree += DEGREE_SPEED_PER_SECOND * game_framework.frame_time
         ghost.x = ghost.origin_x + math.sin(ghost.degree) * 3 * PIXEL_PER_METER
         ghost.y = ghost.origin_y + math.cos(ghost.degree) * 3 * PIXEL_PER_METER
-        ghost.timer += game_framework.frame_time
-        if ghost.timer >= 3:
-            ghost.timer = 0
-            if random.randint(0, 1):
-                ghost.fade_sign = -1
-            else:
-                ghost.fade_sign = 1
-        ghost.transparent += ghost.fade_sign * FADE_SPEED_PPS * game_framework.frame_time
+        if ghost.transparent > 0.7:
+            ghost.transparent -= FADE_SPEED_PPS * game_framework.frame_time
+        else:
+            ghost.timer += game_framework.frame_time
+            if ghost.timer >= 3:
+                ghost.timer = 0
+                if random.randint(0, 1):
+                    ghost.fade_sign = -1
+                else:
+                    ghost.fade_sign = 1
+            ghost.transparent += ghost.fade_sign * FADE_SPEED_PPS * game_framework.frame_time
         ghost.image.opacify(ghost.transparent)
 
     @staticmethod

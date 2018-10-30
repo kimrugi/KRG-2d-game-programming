@@ -6,7 +6,7 @@ from ghost import Ghost
 import game_world
 import time
 
-SLEEP = 2
+SLEEP = 10
 
 # Boy Run Speed
 # fill expressions correctly
