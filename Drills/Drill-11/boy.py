@@ -124,7 +124,7 @@ class DashState:
         elif event == LEFT_UP:
             boy.velocity += 1
         boy.dir = boy.velocity
-        boy.timer = 200 
+        boy.timer = 200
         pass
 
     @staticmethod
