@@ -9,10 +9,13 @@ import game_world
 
 
 class Ghost:
-    image = load_image("animation_sheet.png")
+    image = None
     def __init__(self, boy):
-        pass
-
+        self.x, self.y = boy.x, boy.y
+        self.image = load_image('animation_sheet.png')
+        self.dir = boy.dir
+        self.frame = boy.frame
+        self.event_que = []
 
 
 
