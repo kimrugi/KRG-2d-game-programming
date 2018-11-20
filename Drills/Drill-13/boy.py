@@ -32,10 +32,15 @@ key_event_table = {
     (SDL_KEYDOWN, SDLK_SPACE): SPACE
 }
 
-def left_line(x):
+def left_line(y):
+    LU = (219, 1100)
+    LD = (25, 75)
+    x = y - LU[1] / (LD[1] - LU[1]) / (LD[0] - LD[1]) + LU[0]
+    return x
+
+def up_line(x):
     pass
-def up_line(y):
-    pass
+
 def right_line(x):
     pass
 def down_line(y):
