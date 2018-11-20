@@ -39,7 +39,10 @@ def left_line(y):
     return x
 
 def up_line(x):
-    pass
+    LU = (219, 1100)
+    RU = (1615, 1048)
+    y = (RU[1] - LU[1]) / (RU[0] - LU[0]) * (x - LU[0]) + LU[1]
+    return y
 
 def right_line(x):
     pass
