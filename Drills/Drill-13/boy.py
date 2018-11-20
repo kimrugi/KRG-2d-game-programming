@@ -50,8 +50,11 @@ def right_line(y):
     x = y - RD[1] / ((RU[1] - RD[1]) / (RU[0] - RD[0])) + RD[0]
     return x
 
-def down_line(y):
-    pass
+def down_line(x):
+    LD = (25, 75)
+    RD = (1800, 70)
+    y = (LD[1] - RD[1]) / (LD[0] - RD[0]) * (x - LD[0]) + LD[1]
+    return y
 
 
 
