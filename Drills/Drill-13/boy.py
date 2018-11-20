@@ -35,7 +35,7 @@ key_event_table = {
 def left_line(y):
     LU = (219, 1100)
     LD = (25, 75)
-    x = y - LU[1] / (LD[1] - LU[1]) / (LD[0] - LD[1]) + LU[0]
+    x = y - LU[1] / ((LD[1] - LU[1]) / (LD[0] - LD[1])) + LU[0]
     return x
 
 def up_line(x):
@@ -44,8 +44,12 @@ def up_line(x):
     y = (RU[1] - LU[1]) / (RU[0] - LU[0]) * (x - LU[0]) + LU[1]
     return y
 
-def right_line(x):
-    pass
+def right_line(y):
+    RD = (1800, 70)
+    RU = (1615, 1048)
+    x = y - RD[1] / ((RU[1] - RD[1]) / (RU[0] - RD[0])) + RD[0]
+    return x
+
 def down_line(y):
     pass
 
