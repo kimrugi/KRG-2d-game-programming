@@ -1,6 +1,5 @@
 import game_framework
 from pico2d import *
-from ball import Ball
 
 import game_world
 
@@ -16,7 +15,7 @@ TIME_PER_ACTION = 0.5
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 8
 
-canvas_width, canvas_height = 800, 600
+
 
 # Boy Event
 RIGHTKEY_DOWN, LEFTKEY_DOWN, UPKEY_DOWN, DOWNKEY_DOWN, RIGHTKEY_UP, LEFTKEY_UP, UPKEY_UP, DOWNKEY_UP, SPACE = range(9)
@@ -33,9 +32,33 @@ key_event_table = {
     (SDL_KEYDOWN, SDLK_SPACE): SPACE
 }
 
+def left_line(y):
+    LU = (219, 1100)
+    LD = (25, 75)
+    x = (y - LU[1]) * ((LD[0] - LU[0]) / (LD[1] - LU[1])) + LU[0]
+    return x
+
+def up_line(x):
+    LU = (219, 1100)
+    RU = (1615, 1048)
+    y = (RU[1] - LU[1]) / (RU[0] - LU[0]) * (x - LU[0]) + LU[1]
+    return y
+
+def right_line(y):
+    RD = (1800, 70)
+    RU = (1615, 1048)
+    x = (y - RD[1]) * ((RU[0] - RD[0]) / (RU[1] - RD[1]) ) + RD[0]
+    return x
+
+def down_line(x):
+    LD = (25, 75)
+    RD = (1800, 70)
+    y = (LD[1] - RD[1]) / (LD[0] - RD[0]) * (x - LD[0]) + LD[1]
+    return y
+
+
 
 # Boy States
-
 class WalkingState:
 
     @staticmethod
@@ -57,23 +80,28 @@ class WalkingState:
             boy.y_velocity -= RUN_SPEED_PPS
         elif event == DOWNKEY_UP:
             boy.y_velocity += RUN_SPEED_PPS
-        boy.timer = 1000
+
+
 
     @staticmethod
     def exit(boy, event):
         if event == SPACE:
             boy.fire_ball()
-        pass
 
     @staticmethod
     def do(boy):
-        boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
+        boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % FRAMES_PER_ACTION
         boy.x += boy.x_velocity * game_framework.frame_time
         boy.y += boy.y_velocity * game_framework.frame_time
 
+
+        boy.x = clamp(left_line(boy.y), boy.x, right_line(boy.y))
+        boy.y = clamp(down_line(boy.x), boy.y, up_line(boy.x))
+
     @staticmethod
     def draw(boy):
-        cx, cy = boy.bg.canvas_width // 2, boy.bg.canvas_height // 2
+        cx, cy = boy.x - boy.bg.window_left, boy.y - boy.bg.window_bottom
+
         if boy.x_velocity > 0:
             boy.image.clip_draw(int(boy.frame) * 100, 100, 100, 100, cx, cy)
             boy.dir = 1
@@ -95,11 +123,6 @@ class WalkingState:
                     boy.image.clip_draw(int(boy.frame) * 100, 200, 100, 100, cx, cy)
 
 
-
-
-
-
-
 next_state_table = {
     WalkingState: {RIGHTKEY_UP: WalkingState, LEFTKEY_UP: WalkingState, RIGHTKEY_DOWN: WalkingState, LEFTKEY_DOWN: WalkingState,
                 UPKEY_UP: WalkingState, UPKEY_DOWN: WalkingState, DOWNKEY_UP: WalkingState, DOWNKEY_DOWN: WalkingState,
@@ -108,15 +131,15 @@ next_state_table = {
 
 
 class Boy:
+
     def __init__(self):
-        self.x, self.y = 1600 // 2, 90
+        self.canvas_width = get_canvas_width()
+        self.canvas_height = get_canvas_height()
         # Boy is only once created, so instance image loading is fine
         self.image = load_image('animation_sheet.png')
         self.font = load_font('ENCR10B.TTF', 16)
         self.dir = 1
-        self.velocity = 0
-        self.x_velocity = 0
-        self.y_velocity = 0
+        self.x_velocity, self.y_velocity = 0, 0
         self.frame = 0
         self.event_que = []
         self.cur_state = WalkingState
@@ -133,6 +156,7 @@ class Boy:
 
     def get_bb(self):
         return self.x - 50, self.y - 50, self.x + 50, self.y + 50
+
 
     def set_background(self, bg):
         self.bg = bg
@@ -151,12 +175,8 @@ class Boy:
             self.cur_state.enter(self, event)
 
     def draw(self):
-
         self.cur_state.draw(self)
-        self.font.draw(self.x - 60, self.y + 50, '(Time: %3.2f)' % get_time(), (255, 255, 0))
-        #fill here
-        draw_rectangle(*self.get_bb())
-        debug_print('Velocity :' + str(self.velocity) + '  Dir:' + str(self.dir) + ' Frame Time:' + str(game_framework.frame_time))
+        self.font.draw(self.x - self.bg.window_left - 60, self.y - self.bg.window_bottom + 50, '(%5d, %5d)' % (self.x, self.y), (255, 255, 0))
 
     def handle_event(self, event):
         if (event.type, event.key) in key_event_table:

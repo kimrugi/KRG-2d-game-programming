@@ -7,7 +7,7 @@ import game_framework
 import game_world
 
 from boy import Boy
-from background import InfiniteBackground as Background
+from background import FixedBackground as Background
 from grass import Grass
 from ball import Ball
 
@@ -18,8 +18,7 @@ grass = None
 background = None
 balls = []
 
-def get_background():
-    return background
+
 
 def collide(a, b):
     # fill here
@@ -33,7 +32,8 @@ def collide(a, b):
 
     return True
 
-
+def get_background():
+    return background
 
 
 def enter():
@@ -45,17 +45,17 @@ def enter():
     grass = Grass()
     game_world.add_object(grass, 0)
 
-    global balls
-    balls = [Ball() for i in range(10)]
-    game_world.add_objects(balls, 1)
 
     global background
     background = Background()
     game_world.add_object(background, 0)
 
+    global balls
+    balls = [Ball() for i in range(100)]
+    game_world.add_objects(balls, 1)
+
     background.set_center_object(boy)
     boy.set_background(background)
-
 
 
 def exit():
