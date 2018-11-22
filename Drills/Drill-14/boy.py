@@ -146,7 +146,7 @@ class Boy:
         self.cur_state.enter(self, None)
 
         self.eat_sound=load_wav('pickup.wav')
-        self.eat_sound.set_volume(32)
+        self.eat_sound.set_volume(100)
         self.eat_count = 0
 
     def eat(self, ball):

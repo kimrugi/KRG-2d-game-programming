@@ -41,10 +41,6 @@ def enter():
     boy = Boy()
     game_world.add_object(boy, 1)
 
-    global grass
-    grass = Grass()
-    game_world.add_object(grass, 0)
-
 
     global background
     background = Background()
