@@ -9,7 +9,7 @@ class Ball:
     def __init__(self):
         if Ball.image == None:
             Ball.image = load_image('ball21x21.png')
-        self.x, self.y = random.randint(0, 800-1), random.randint(0, 600-1)
+        self.x, self.y = random.randint(400, 1600-1), random.randint(300, 1200-1)
         self.bg = main_state.get_background()
 
     def get_bb(self):

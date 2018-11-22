@@ -147,10 +147,11 @@ class Boy:
 
         self.eat_sound=load_wav('pickup.wav')
         self.eat_sound.set_volume(32)
-
+        self.eat_count = 0
 
     def eat(self, ball):
         self.eat_sound.play()
+        self.eat_count += 1
         pass
 
 
@@ -176,8 +177,7 @@ class Boy:
 
     def draw(self):
         self.cur_state.draw(self)
-        self.font.draw(self.x - self.bg.window_left - 60, self.y - self.bg.window_bottom + 50, '(%5d, %5d)' % (self.x, self.y), (255, 255, 0))
-
+        self.font.draw(self.x - self.bg.window_left - 60, self.y - self.bg.window_bottom + 50, '(balls, %5d)' , (255, 255, 0))
     def handle_event(self, event):
         if (event.type, event.key) in key_event_table:
             key_event = key_event_table[(event.type, event.key)]
