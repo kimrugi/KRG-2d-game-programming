@@ -18,6 +18,8 @@ grass = None
 background = None
 balls = []
 
+def get_background():
+    return background
 
 def collide(a, b):
     # fill here
