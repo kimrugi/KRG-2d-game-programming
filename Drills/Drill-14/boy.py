@@ -177,7 +177,7 @@ class Boy:
 
     def draw(self):
         self.cur_state.draw(self)
-        self.font.draw(self.x - self.bg.window_left - 60, self.y - self.bg.window_bottom + 50, '(balls, %5d)' , (255, 255, 0))
+        self.font.draw(self.x - self.bg.window_left - 60, self.y - self.bg.window_bottom + 50, '(balls, %5d)' %self.eat_count, (255, 255, 0))
     def handle_event(self, event):
         if (event.type, event.key) in key_event_table:
             key_event = key_event_table[(event.type, event.key)]
