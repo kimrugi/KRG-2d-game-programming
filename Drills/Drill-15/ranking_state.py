@@ -13,19 +13,17 @@ from boy import Boy
 from zombie import Zombie
 import world_build_state
 
-boy = None
 
-
+ranking_list = []
 name = "WorldBuildState"
 font = load_font('ENCR10B.TTF', 20)
 menu = None
 
 def enter():
-
+    pass
 
 def exit():
-    global menu
-    del menu
+    pass
 
 def pause():
     pass

@@ -138,13 +138,11 @@ class Boy:
         self.__dict__.update(state)
 
     def get_bb(self):
-        # fill here
         return self.x - 50, self.y - 50, self.x + 50, self.y + 50
 
 
     def fire_ball(self):
-        ball = Ball(self.x, self.y, self.dir * RUN_SPEED_PPS * 10)
-        game_world.add_object(ball, 1)
+        pass
 
 
     def add_event(self, event):

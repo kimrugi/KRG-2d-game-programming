@@ -6,7 +6,7 @@ import os
 from pico2d import *
 import game_framework
 import game_world
-
+import ranking_state
 import world_build_state
 
 name = "MainState"
@@ -59,6 +59,9 @@ def handle_events():
 def update():
     for game_object in game_world.all_objects():
         game_object.update()
+    for o in game_world.all_objects():
+        if collide(boy, o):
+            game_framework.change_state(ranking_state)
 
 
 def draw():
