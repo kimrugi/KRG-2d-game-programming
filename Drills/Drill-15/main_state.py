@@ -10,7 +10,7 @@ import ranking_state
 import world_build_state
 
 name = "MainState"
-score = None
+score = []
 
 def collide(a, b):
     # fill here
@@ -25,7 +25,7 @@ def collide(a, b):
     return True
 
 boy = None
-zombies = None
+zombies = []
 
 def enter():
     # game world is prepared already in world_build_state

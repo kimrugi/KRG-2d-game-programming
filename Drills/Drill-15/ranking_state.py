@@ -26,8 +26,11 @@ menu = None
 
 def enter():
     global font
+    global ranking_list
     font = load_font('ENCR10B.TTF', 20)
     score = main_state.get_score()
+    with open('ranking data.json', 'r') as f:
+        ranking_list = json.load(f)
     ranking_list.append(score)
     ranking_list.sort()
 
@@ -36,6 +39,8 @@ def enter():
 def exit():
     global font
     del font
+    with open('ranking data.json', 'w') as f:
+        json.dump(ranking_list, f)
     pass
 
 def pause():
@@ -59,7 +64,8 @@ def draw():
     font.draw(middle_x, show_y * 11, '[Total Ranking]', (0,0,0))
     i = 10
     for score in ranking_list:
-        font.draw(middle_x, show_y * i, '#%d. %3.2f' % (i, score), (0,0,0))
+        font.draw(middle_x, show_y * i, '#%d. %3.2f' % (11 - i, score), (0,0,0))
+        i -= 1
     update_canvas()
 
 
