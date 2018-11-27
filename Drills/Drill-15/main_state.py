@@ -10,7 +10,7 @@ import ranking_state
 import world_build_state
 
 name = "MainState"
-
+score = None
 
 def collide(a, b):
     # fill here
@@ -61,6 +61,8 @@ def update():
         game_object.update()
     for o in game_world.all_objects():
         if collide(boy, o):
+            global score
+            score = get_time() - boy.start_time
             game_framework.change_state(ranking_state)
 
 
@@ -70,7 +72,8 @@ def draw():
         game_object.draw()
     update_canvas()
 
-
+def get_score():
+    return score
 
 
 

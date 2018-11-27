@@ -20,6 +20,8 @@ font = load_font('ENCR10B.TTF', 20)
 menu = None
 
 def enter():
+    boy = world_build_state.get_boy()
+    score = boy.
     pass
 
 def exit():
