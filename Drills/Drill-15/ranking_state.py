@@ -32,7 +32,7 @@ def enter():
     with open('ranking data.json', 'r') as f:
         ranking_list = json.load(f)
     ranking_list.append(score)
-    ranking_list.sort()
+    ranking_list.sort(reverse = True)
 
     pass
 
