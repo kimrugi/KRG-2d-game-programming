@@ -20,8 +20,10 @@ font = load_font('ENCR10B.TTF', 20)
 menu = None
 
 def enter():
-    boy = world_build_state.get_boy()
-    score = boy.
+    score = main_state.get_score()
+    ranking_list.append(score)
+    ranking_list.sort()
+
     pass
 
 def exit():
@@ -32,9 +34,6 @@ def pause():
 
 def resume():
     pass
-
-def get_boy():
-    return boy
 
 def handle_events():
     events = get_events()
