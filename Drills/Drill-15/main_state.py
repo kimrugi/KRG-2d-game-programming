@@ -25,11 +25,14 @@ def collide(a, b):
     return True
 
 boy = None
+zombies = None
 
 def enter():
     # game world is prepared already in world_build_state
     global boy
+    global zombies
     boy = world_build_state.get_boy()
+    zombies = world_build_state.get_zombies()
     pass
 
 def exit():
@@ -59,7 +62,7 @@ def handle_events():
 def update():
     for game_object in game_world.all_objects():
         game_object.update()
-    for o in game_world.all_objects():
+    for o in zombies:
         if collide(boy, o):
             global score
             score = get_time() - boy.start_time

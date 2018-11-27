@@ -12,14 +12,21 @@ import main_state
 from boy import Boy
 from zombie import Zombie
 import world_build_state
+PIXEL_PER_METER = 100 / 3
+
+middle_x, middle_y = int(40 * PIXEL_PER_METER) // 2, int(30 * PIXEL_PER_METER) // 2
+
+show_y = ((middle_y * 2) - 100) / 11
 
 
 ranking_list = []
 name = "WorldBuildState"
-font = load_font('ENCR10B.TTF', 20)
+font = None
 menu = None
 
 def enter():
+    global font
+    font = load_font('ENCR10B.TTF', 20)
     score = main_state.get_score()
     ranking_list.append(score)
     ranking_list.sort()
@@ -27,6 +34,8 @@ def enter():
     pass
 
 def exit():
+    global font
+    del font
     pass
 
 def pause():
@@ -47,7 +56,10 @@ def update():
 
 def draw():
     clear_canvas()
-    menu.draw(get_canvas_width()//2, get_canvas_height()//2)
+    font.draw(middle_x, show_y * 11, '[Total Ranking]', (0,0,0))
+    i = 10
+    for score in ranking_list:
+        font.draw(middle_x, show_y * i, '#%d. %3.2f' % (i, score), (0,0,0))
     update_canvas()
 
 
